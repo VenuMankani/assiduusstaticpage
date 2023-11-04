@@ -1,0 +1,14 @@
+html,
+body {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  scroll-behavior: smooth;
+  background-color: #D3D3D3;
+  /* overflow: hidden; */
+}
+
+#root {
+  height: 100%;
+  width: 100%;
+}

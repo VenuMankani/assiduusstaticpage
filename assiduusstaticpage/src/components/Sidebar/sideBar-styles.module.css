@@ -1,0 +1,25 @@
+.wrapper {
+    position: absolute;
+    background-color: white;
+    width: 15rem;
+    height: 100%;
+}
+
+.sidebarItem {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.sidebarItem:hover {
+    background-color: rgba(0, 156, 0, 0.795);
+    color: white;
+    cursor: pointer;
+}
+
+.selected {
+    background-color: rgba(0, 156, 0, 0.795);
+    color: white;
+}

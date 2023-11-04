@@ -1,0 +1,106 @@
+.Container {
+  max-height: 30rem;
+  max-width: 50rem;
+  height: 100%;
+  width: 100%;
+  border-radius: 10px;
+  background-color: white;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+}
+
+.cell {
+  flex: 1;
+  padding: 16px;
+  padding: 0.5rem;
+  margin: 0;
+}
+
+.cell:last-child {
+  border-right: none;
+}
+
+.title {
+  font-weight: bolder;
+  color: lightgray;
+}
+
+.data {
+  font-weight: bolder;
+}
+
+.CheckingAccountHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.manageMonths {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 0.5rem;
+}
+
+.invoicesButton {
+  display: flex;
+  height: 3rem;
+  width: 9rem;
+  background-color: #c9e9f6;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+  color: rgb(87, 204, 87);
+  margin: 5px;
+}
+
+.invoicesButton:hover {
+  background-color: #9edff8;
+  cursor: pointer;
+  color: black;
+}
+
+.x-axis-labels {
+  font-size: 32px;
+  fill: red;
+  transform: translate(0, 5px);
+  text-anchor: middle;
+}
+
+.TCF {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+
+}
+
+.In {
+  height: 1rem;
+  width: 1rem;
+  background-color: #4BB543;
+  border-radius: 4px;
+}
+
+.Out {
+  height: 1rem;
+  width: 1rem;
+  background-color: #2acf14;
+  border-radius: 4px;
+}
