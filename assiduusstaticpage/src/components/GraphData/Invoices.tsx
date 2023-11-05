@@ -1,17 +1,30 @@
-import { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styles from './graphData.module.css'
-import { Typography, Divider } from '@mui/material';
+import { Typography, Divider, Snackbar } from '@mui/material';
 import * as d3 from "d3";
+import MuiAlert, { AlertProps } from '@mui/material/Alert';
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref,
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 const invoiceData = [50, 100, 200, 150, 180, 70];
 
 const Invoices = () => {
   const [data] = useState(invoiceData);
   const svgRef = useRef<any>();
-  const inputFile = useRef<any>(null)
+  const inputFile = useRef<any>(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleButtonClick = () => {
     inputFile.current.click();
+  }
+
+  const handleFileSelect = () => {
+    setSnackbarOpen(true);
   }
 
   useEffect(() => {
@@ -63,7 +76,7 @@ const Invoices = () => {
       <div className={styles.CheckingAccountHeader}>
         <Typography variant="h6" paddingTop={'0.5rem'} paddingLeft={'1rem'} fontWeight={700}>Invoices owed to you</Typography>
         <div className={styles.manageMonths}>
-          <input type='file' id='file' ref={inputFile} style={{ display: 'none' }} />
+          <input type='file' id='file' ref={inputFile} onChange={handleFileSelect} style={{ display: 'none' }} />
           <div className={styles.invoicesButton} onClick={handleButtonClick}>
             <Typography variant='body2' fontWeight={700}>New Sales Invoice</Typography>
           </div>
@@ -71,6 +84,12 @@ const Invoices = () => {
       </div>
       <Divider orientation='horizontal' />
       <svg ref={svgRef} style={{ margin: "50px" }}></svg>
+
+      <Snackbar open={snackbarOpen} autoHideDuration={1500} anchorOrigin={{ horizontal: 'center', vertical: 'top' }} onClose={() => setSnackbarOpen(false)}>
+        <Alert onClose={() => setSnackbarOpen(false)} severity="success" sx={{ width: '100%' }}>
+          You Selected a File!
+        </Alert>
+      </Snackbar>
     </div>
   );
 }
