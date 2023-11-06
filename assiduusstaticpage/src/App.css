@@ -17,6 +17,12 @@
   grid-gap: 2rem;
 }
 
+@media (max-width: 900px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+}
+
 .grid-item {
   display: flex;
   justify-content: center;

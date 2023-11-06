@@ -1,9 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useContext } from 'react'
 import styles from './graphData.module.css'
 import * as d3 from "d3";
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import { FormControl, MenuItem, Select } from '@mui/material';
+import { PageContext } from '../context/ContextProvider';
 
 const monthlyData = [
   { month: 'January', data: [25, 70, 45, 60, 46, 44, 60, 32, 80, 40] },
@@ -25,6 +26,7 @@ const CheckingAccount = () => {
   const [manage, setManage] = useState(1);
   const [data, setData] = useState(monthlyData[0].data);
   const svgRef = useRef<any>();
+  const contextValue = useContext(PageContext);
 
   const handleMonthChange = (event: any) => {
     const selectedMonth = event.target.value;
@@ -42,9 +44,14 @@ const CheckingAccount = () => {
 
     d3.select(svgRef.current).selectAll("*").remove();
 
+    
     // setting up svg
-    const w = 700;
-    const h = 200;
+    let w = 700; 
+    let h = 200;
+    if (contextValue.screenHeight < 1000 && contextValue.screenWidth < 1600) {
+      w = 450;
+      h = 150;
+    }
     const svg = d3
       .select(svgRef.current)
       .attr("width", w)
@@ -82,7 +89,7 @@ const CheckingAccount = () => {
       .attr("d", (d: any) => generateScaledLine(d))
       .attr("fill", "none")
       .attr("stroke", "darkgreen");
-  }, [data]);
+  }, [data, contextValue.screenHeight, contextValue.screenWidth]);
 
   return (
     <div className={styles.Container}>

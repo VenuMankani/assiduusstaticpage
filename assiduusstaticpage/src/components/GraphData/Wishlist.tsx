@@ -26,30 +26,26 @@ const Wishlist = () => {
             </Typography>
             <Divider orientation='horizontal' />
             <div className={styles.table}>
-                <div className={styles.row}>
-                    <div className={styles.cell}>
-                        <Typography className={styles.title} variant='subtitle2'>Account</Typography>
+                <div className={styles.section1}>
+                    <Typography fontWeight={700} fontSize={13} marginBottom={'0.75rem'} color={'lightgray'}>Account</Typography>
+                    {rows.map((col) =>
+                        <Typography fontWeight={700}>{col.account}</Typography>
+                    )}
+                </div>
+                <div className={styles.section2}>
+                    <div className={styles.month}>
+                        <Typography fontWeight={700} fontSize={13} marginBottom={'0.75rem'} color={'lightgray'}>This Month</Typography>
+                        {rows.map((col) =>
+                            <Typography fontWeight={700}>{col.month}</Typography>
+                        )}
                     </div>
-                    <div className={styles.cell}>
-                        <Typography className={styles.title} variant='subtitle2'>This Month</Typography>
-                    </div>
-                    <div className={styles.cell}>
-                        <Typography className={styles.title} variant='subtitle2'>YTD</Typography>
+                    <div className={styles.ytd}>
+                        <Typography fontWeight={700} fontSize={13} marginBottom={'0.75rem'} color={'lightgray'}>YTD</Typography>
+                        {rows.map((col) =>
+                            <Typography fontWeight={700}>{col.ytd}</Typography>
+                        )}
                     </div>
                 </div>
-                {rows.map((row, index) => (
-                    <div className={styles.row} key={index}>
-                        <div className={styles.cell}>
-                            <Typography className={styles.data}>{row.account}</Typography>
-                        </div>
-                        <div className={styles.cell}>
-                            <Typography className={styles.data}>{row.month}</Typography>
-                        </div>
-                        <div className={styles.cell}>
-                            <Typography className={styles.data}>{row.ytd}</Typography>
-                        </div>
-                    </div>
-                ))}
             </div>
         </div>
     );

@@ -41,12 +41,14 @@ const Header = () => {
               backgroundColor: 'whitesmoke'
             }
           }} />
-        <Badge color="success" overlap="circular" variant='dot' badgeContent="">
-          <NotificationsIcon fontSize='large' />
-        </Badge>
-        <Avatar alt="Cindy Baker" src={AvatarIcon} sx={{ width: 50, height: 50 }} />
-        <IconButton onClick={handleClick}>
-          <ArrowDropDownIcon />
+        <IconButton>
+          <Badge color="success" overlap="circular" variant='dot' badgeContent="">
+            <NotificationsIcon style={{ color: "black" }} fontSize='large' />
+          </Badge>
+        </IconButton>
+        <IconButton onClick={handleClick} style={{gap: '24px'}}>
+          <Avatar alt="Cindy Baker" src={AvatarIcon} sx={{ width: 50, height: 50 }} />
+          <ArrowDropDownIcon style={{ color: "black" }} />
         </IconButton>
         <Menu
           anchorEl={showMenu}

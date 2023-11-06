@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import CheckingAccount from './components/GraphData/CheckingAccount'
 import Invoices from './components/GraphData/Invoices'
@@ -7,6 +8,7 @@ import Header from './components/Header/Header'
 import SideBar from './components/Sidebar/SideBar'
 
 function App() {
+
   return (
     <div className='App'>
       <Header />

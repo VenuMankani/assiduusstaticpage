@@ -1,21 +1,28 @@
-import { useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import * as d3 from "d3";
 import styles from './graphData.module.css'
 import { Typography, Divider } from '@mui/material';
+import { PageContext } from '../context/ContextProvider';
 
 const data1 = [25, 70, 45, 60, 46, 44];
-const data2 = [15, 150, 45, 80, 36, 44];
+const data2 = [15, 100, 45, 80, 36, 44];
 
 const TotalCashFlow = () => {
   const svgRef = useRef<any>();
+  const contextValue = useContext(PageContext);
 
   useEffect(() => {
     // Combine data1 and data2 into a single dataset for stacking
     const stackedData: any = data1.map((d1, i) => ({ d1, d2: data2[i] }));
 
     // setting up svg
-    const w = 700;
-    const h = 200;
+    let w = 700;
+    let h = 200;
+    if (contextValue.screenHeight < 1000 && contextValue.screenWidth < 1600) {
+      w = 450;
+      h = 150;
+    }
+
     const svg = d3
       .select(svgRef.current)
       .attr("width", w)
@@ -70,11 +77,7 @@ const TotalCashFlow = () => {
       })
     svg.append("g").call(xAxis).attr("transform", `translate(0,${h})`);
 
-    // // Add y-axis
-    // const yAxis = d3.axisLeft(yScale);
-    // svg.append("g").call(yAxis);
-
-  }, []);
+  }, [contextValue.screenHeight, contextValue.screenWidth]);
 
   return (
     <div className={styles.Container}>

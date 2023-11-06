@@ -5,6 +5,12 @@
     height: 100%;
 }
 
+@media screen and (max-height: 750px) {
+    .wrapper {
+      height: 150%;
+    }
+  }
+
 .sidebarItem {
     display: flex;
     flex-direction: row;

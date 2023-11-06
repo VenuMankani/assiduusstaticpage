@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import styles from './graphData.module.css'
 import { Typography, Divider, Snackbar } from '@mui/material';
 import * as d3 from "d3";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
+import { PageContext } from '../context/ContextProvider';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -11,13 +12,14 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const invoiceData = [50, 100, 200, 150, 180, 70];
+const invoiceData = [50, 100, 180, 130, 150, 70];
 
 const Invoices = () => {
   const [data] = useState(invoiceData);
   const svgRef = useRef<any>();
   const inputFile = useRef<any>(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const contextValue = useContext(PageContext);
 
   const handleButtonClick = () => {
     inputFile.current.click();
@@ -29,8 +31,13 @@ const Invoices = () => {
 
   useEffect(() => {
     // setting up svg
-    const w = 700;
-    const h = 200;
+    let w = 700; 
+    let h = 200;
+    if (contextValue.screenHeight < 1000 && contextValue.screenWidth < 1600) {
+      w = 450;
+      h = 150;
+    }
+
     const svg = d3
       .select(svgRef.current)
       .attr("width", w)
@@ -69,7 +76,7 @@ const Invoices = () => {
       .attr("fill", "#4BB543")
       .attr("rx", 5)
       .attr("ry", 5);
-  }, [data]);
+  }, [data, contextValue.screenHeight, contextValue.screenWidth]);
 
   return (
     <div className={styles.Container}>
