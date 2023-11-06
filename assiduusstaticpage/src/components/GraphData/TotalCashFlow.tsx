@@ -1,17 +1,41 @@
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import * as d3 from "d3";
 import styles from './graphData.module.css'
-import { Typography, Divider } from '@mui/material';
+import { Typography, Divider, IconButton } from '@mui/material';
 import { PageContext } from '../context/ContextProvider';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
 
-const data1 = [25, 70, 45, 60, 46, 44];
-const data2 = [15, 100, 45, 80, 36, 44];
+const initdata1 = [25, 70, 45, 60, 46, 44];
+const initdata2 = [15, 100, 45, 80, 36, 44];
 
 const TotalCashFlow = () => {
   const svgRef = useRef<any>();
   const contextValue = useContext(PageContext);
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const [tickLabels, setTickLabels] = useState(months);
+  const [data1, setData1] = useState(initdata1);
+  const [data2, setData2] = useState(initdata2);
+  const [showRandomData, setShowRandomData] = useState(false);
+
+  const randomizeData = () => {
+    // Generate random data for data1 and data2
+    const randomData1 = Array.from({ length: 6 }, () => Math.floor(Math.random() * 130));
+    const randomData2 = Array.from({ length: 6 }, () => Math.floor(Math.random() * 130));
+
+    setData1(randomData1);
+    setData2(randomData2);
+    setShowRandomData(!showRandomData);
+
+    const shuffledMonths = contextValue.shuffleArray([...months]);
+    //@ts-ignore
+    const randomMonths = shuffledMonths.slice(0, 6);
+    setTickLabels(randomMonths);
+  };
 
   useEffect(() => {
+
+    d3.select(svgRef.current).selectAll("*").remove();
+
     // Combine data1 and data2 into a single dataset for stacking
     const stackedData: any = data1.map((d1, i) => ({ d1, d2: data2[i] }));
 
@@ -71,18 +95,19 @@ const TotalCashFlow = () => {
 
     // Add x-axis
     const xAxis = d3.axisBottom(xScale)
-      .tickFormat((_, i) => {
-        const tickLabels = ["August", "September", "October", "November", "December", "January"];
-        return tickLabels[i];
-      })
+      .tickFormat((_, i) => tickLabels[i])
+    // .ticks(data.length)
     svg.append("g").call(xAxis).attr("transform", `translate(0,${h})`);
 
-  }, [contextValue.screenHeight, contextValue.screenWidth]);
+  }, [contextValue.screenHeight, contextValue.screenWidth, showRandomData]);
 
   return (
     <div className={styles.Container}>
       <div className={styles.CheckingAccountHeader}>
         <Typography variant="h6" paddingTop={'0.5rem'} paddingLeft={'1rem'} fontWeight={700}>Total cash flow</Typography>
+        <IconButton onClick={randomizeData}>
+          <ShuffleIcon />
+        </IconButton>
         <div className={styles.TCF}>
           <div className={styles.In}></div><Typography>In</Typography>
           <div className={styles.Out}></div><Typography>Out</Typography>
@@ -95,3 +120,4 @@ const TotalCashFlow = () => {
 }
 
 export default TotalCashFlow;
+

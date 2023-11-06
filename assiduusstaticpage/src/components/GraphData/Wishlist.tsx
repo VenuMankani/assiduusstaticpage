@@ -28,21 +28,21 @@ const Wishlist = () => {
             <div className={styles.table}>
                 <div className={styles.section1}>
                     <Typography fontWeight={700} fontSize={13} marginBottom={'0.75rem'} color={'lightgray'}>Account</Typography>
-                    {rows.map((col) =>
-                        <Typography fontWeight={700}>{col.account}</Typography>
+                    {rows.map((col, idx) =>
+                        <Typography fontWeight={700} key={idx}>{col.account}</Typography>
                     )}
                 </div>
                 <div className={styles.section2}>
                     <div className={styles.month}>
                         <Typography fontWeight={700} fontSize={13} marginBottom={'0.75rem'} color={'lightgray'}>This Month</Typography>
-                        {rows.map((col) =>
-                            <Typography fontWeight={700}>{col.month}</Typography>
+                        {rows.map((col, idx) =>
+                            <Typography fontWeight={700} key={idx}>{col.month}</Typography>
                         )}
                     </div>
                     <div className={styles.ytd}>
                         <Typography fontWeight={700} fontSize={13} marginBottom={'0.75rem'} color={'lightgray'}>YTD</Typography>
-                        {rows.map((col) =>
-                            <Typography fontWeight={700}>{col.ytd}</Typography>
+                        {rows.map((col, idx) =>
+                            <Typography fontWeight={700} key={idx}>{col.ytd}</Typography>
                         )}
                     </div>
                 </div>

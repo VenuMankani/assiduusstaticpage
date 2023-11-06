@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import styles from './graphData.module.css'
-import { Typography, Divider, Snackbar } from '@mui/material';
+import { Typography, Divider, Snackbar, Button, IconButton } from '@mui/material';
 import * as d3 from "d3";
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { PageContext } from '../context/ContextProvider';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -12,16 +13,27 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const invoiceData = [50, 100, 180, 130, 150, 70];
 
 const Invoices = () => {
-  const [data] = useState(invoiceData);
   const svgRef = useRef<any>();
   const inputFile = useRef<any>(null);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const contextValue = useContext(PageContext);
+  const [data, setData] = useState([50, 100, 180, 130, 150, 70]);
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const [tickLabels, setTickLabels] = useState(months);
 
   const handleButtonClick = () => {
+    const newData = Array.from({ length: 6 }, () => Math.floor(Math.random() * 180));
+    setData(newData);
+
+    const shuffledMonths = contextValue.shuffleArray([...months]);
+    //@ts-ignore
+    const randomMonths = shuffledMonths.slice(0, 6);
+    setTickLabels(randomMonths);
+  };
+
+  const handleButton = () => {
     inputFile.current.click();
   }
 
@@ -30,8 +42,10 @@ const Invoices = () => {
   }
 
   useEffect(() => {
+    d3.select(svgRef.current).selectAll("*").remove();
+
     // setting up svg
-    let w = 700; 
+    let w = 700;
     let h = 200;
     if (contextValue.screenHeight < 1000 && contextValue.screenWidth < 1600) {
       w = 450;
@@ -55,10 +69,7 @@ const Invoices = () => {
     // setting the axes
     const xAxis = d3
       .axisBottom(xScale)
-      .tickFormat((_, i) => {
-        const tickLabels = ["Older", "Jan 01-08", "Jan 09-16", "Jan 17-24", "Jan 25-31", "Future"];
-        return tickLabels[i];
-      })
+      .tickFormat((_, i) => tickLabels[i])
       .ticks(data.length)
     svg.append("g").call(xAxis).attr("transform", `translate(0,${h})`)
       .attr('class', 'x-axis-labels')
@@ -76,15 +87,18 @@ const Invoices = () => {
       .attr("fill", "#4BB543")
       .attr("rx", 5)
       .attr("ry", 5);
-  }, [data, contextValue.screenHeight, contextValue.screenWidth]);
+  }, [data, tickLabels, contextValue.screenHeight, contextValue.screenWidth]);
 
   return (
     <div className={styles.Container}>
       <div className={styles.CheckingAccountHeader}>
         <Typography variant="h6" paddingTop={'0.5rem'} paddingLeft={'1rem'} fontWeight={700}>Invoices owed to you</Typography>
+        <IconButton onClick={handleButtonClick}>
+          <ShuffleIcon />
+        </IconButton>
         <div className={styles.manageMonths}>
           <input type='file' id='file' ref={inputFile} onChange={handleFileSelect} style={{ display: 'none' }} />
-          <div className={styles.invoicesButton} onClick={handleButtonClick}>
+          <div className={styles.invoicesButton} onClick={handleButton}>
             <Typography variant='body2' fontWeight={700}>New Sales Invoice</Typography>
           </div>
         </div>
